@@ -45,8 +45,7 @@ export const ReportPreview = forwardRef<HTMLDivElement, ReportPreviewProps>(
 
     return (
       <div ref={ref} className="bg-[#ffffff] text-[#111111]">
-        <div
-          className="mx-auto w-[210mm] border border-[#cccccc] p-16"
+        <div className="mx-auto w-[210mm] border border-[#cccccc] p-16"
           style={{ minHeight: "295mm", fontFamily: "Sans-serif, serif" }}
         >
           <div className="mb-8 text-center">
