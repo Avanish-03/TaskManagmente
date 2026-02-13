@@ -1,6 +1,6 @@
 "use client"
 
-import { forwardRef, useState } from "react"
+import { forwardRef } from "react"
 import { format } from "date-fns"
 import type { TaskType, ProfileType } from "@/types"
 import { MONTHS } from "@/types"
@@ -10,11 +10,13 @@ interface ReportPreviewProps {
   tasks: TaskType[]
   month: number
   year: number
+  projectTitle: string
   objectives: string
   summary: string
   learningOutcomes: string[]
   toolsTechnologies: string[]
 }
+
 
 export const ReportPreview = forwardRef<HTMLDivElement, ReportPreviewProps>(
 
@@ -24,6 +26,7 @@ export const ReportPreview = forwardRef<HTMLDivElement, ReportPreviewProps>(
       tasks,
       month,
       year,
+      projectTitle,
       objectives,
       summary,
       learningOutcomes,
@@ -31,11 +34,8 @@ export const ReportPreview = forwardRef<HTMLDivElement, ReportPreviewProps>(
     },
     ref
   ) {
-    const [projectTitle, setProjectTitle] = useState("")
-
     const monthName = MONTHS[month - 1]
 
-    // 🔥 Split tasks into pages (19 per page)
     const TASKS_PER_PAGE = 18
     const taskPages: TaskType[][] = []
 
@@ -45,11 +45,9 @@ export const ReportPreview = forwardRef<HTMLDivElement, ReportPreviewProps>(
 
     return (
       <div ref={ref} className="bg-[#ffffff] text-[#111111]">
-
-        {/* ===================== PAGE 1 ===================== */}
         <div
-          className="mx-auto w-[210mm] border border-[#cccccc] p-10"
-          style={{ minHeight: "295mm", fontFamily: "Times New Roman, serif" }}
+          className="mx-auto w-[210mm] border border-[#cccccc] p-16"
+          style={{ minHeight: "295mm", fontFamily: "Sans-serif, serif" }}
         >
           <div className="mb-8 text-center">
             <h1 className="mb-1 text-xl font-bold uppercase tracking-wide">
@@ -66,7 +64,7 @@ export const ReportPreview = forwardRef<HTMLDivElement, ReportPreviewProps>(
               ["Student Name:", profile?.studentName],
               ["Company Name:", profile?.companyName],
               ["Designation:", profile?.designation],
-              ["Project Title:", profile?.projectTitle],
+              ["Project Title:", projectTitle],
               ["Month:", `${monthName} ${year}`],
             ].map(([label, value], i) => (
               <div className="flex" key={i}>
@@ -99,12 +97,11 @@ export const ReportPreview = forwardRef<HTMLDivElement, ReportPreviewProps>(
           </div>
         </div>
 
-        {/* ===================== TASK PAGES ===================== */}
         {taskPages.map((pageTasks, pageIndex) => (
           <div
             key={pageIndex}
-            className="mx-auto mt-4 w-[210mm] border border-[#cccccc] p-10"
-            style={{ minHeight: "295mm", fontFamily: "Times New Roman, serif" }}
+            className="mx-auto mt-4 w-[210mm] border border-[#cccccc] p-16"
+            style={{ minHeight: "295mm", fontFamily: "Sans-serif, serif" }}
           >
             <div className="mb-6 text-center">
               <h1 className="text-xl font-bold uppercase tracking-wide">

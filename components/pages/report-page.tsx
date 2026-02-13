@@ -31,6 +31,7 @@ const fetcher = (url: string) => fetch(url).then((r) => r.json())
 export default function ReportPageContent() {
   const [month, setMonth] = useState(() => new Date().getMonth() + 1)
   const [year, setYear] = useState(() => new Date().getFullYear())
+  const [projectTitle, setProjectTitle] = useState("")   // ✅ added
   const [objectives, setObjectives] = useState("")
   const [summary, setSummary] = useState("")
   const [learningOutcomes, setLearningOutcomes] = useState<string[]>([""])
@@ -100,13 +101,19 @@ export default function ReportPageContent() {
         title="Monthly Report"
         description="Generate your monthly internship progress report"
       />
+
       <div className="flex flex-col gap-6 p-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-base text-foreground">Report Details</CardTitle>
+            <CardTitle className="text-base text-foreground">
+              Report Details
+            </CardTitle>
           </CardHeader>
+
           <CardContent>
             <div className="flex flex-col gap-5">
+
+              {/* Month & Year */}
               <div className="flex items-end gap-4">
                 <div className="flex flex-col gap-2">
                   <Label className="text-foreground">Month</Label>
@@ -126,6 +133,7 @@ export default function ReportPageContent() {
                     </SelectContent>
                   </Select>
                 </div>
+
                 <div className="flex flex-col gap-2">
                   <Label className="text-foreground">Year</Label>
                   <Select
@@ -146,6 +154,18 @@ export default function ReportPageContent() {
                 </div>
               </div>
 
+              {/* ✅ Project Title Added */}
+              <div className="flex flex-col gap-2">
+                <Label className="text-foreground">Project Title</Label>
+                <Textarea
+                  placeholder="Enter the project title for this month..."
+                  value={projectTitle}
+                  onChange={(e) => setProjectTitle(e.target.value)}
+                  rows={2}
+                />
+              </div>
+
+              {/* Objectives */}
               <div className="flex flex-col gap-2">
                 <Label className="text-foreground">Objectives</Label>
                 <Textarea
@@ -156,8 +176,11 @@ export default function ReportPageContent() {
                 />
               </div>
 
+              {/* Summary */}
               <div className="flex flex-col gap-2">
-                <Label className="text-foreground">Work & Learning Summary</Label>
+                <Label className="text-foreground">
+                  Work & Learning Summary
+                </Label>
                 <Textarea
                   placeholder="Summarize your work and learning for this month..."
                   value={summary}
@@ -181,17 +204,26 @@ export default function ReportPageContent() {
               />
 
               <div className="flex items-center gap-3 pt-2">
-                <Button onClick={() => setShowPreview(!showPreview)} variant="outline">
+                <Button
+                  onClick={() => setShowPreview(!showPreview)}
+                  variant="outline"
+                >
                   <Eye className="mr-2 h-4 w-4" />
                   {showPreview ? "Hide Preview" : "Show Preview"}
                 </Button>
-                <Button onClick={handleExportPDF} disabled={exporting || !showPreview}>
+
+                <Button
+                  onClick={handleExportPDF}
+                  disabled={exporting || !showPreview}
+                >
                   {exporting ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   ) : (
                     <Download className="mr-2 h-4 w-4" />
                   )}
-                  {exporting ? "Generating..." : "Download Monthly Report PDF"}
+                  {exporting
+                    ? "Generating..."
+                    : "Download Monthly Report PDF"}
                 </Button>
               </div>
             </div>
@@ -201,7 +233,9 @@ export default function ReportPageContent() {
         {showPreview && (
           <Card>
             <CardHeader>
-              <CardTitle className="text-base text-foreground">Report Preview</CardTitle>
+              <CardTitle className="text-base text-foreground">
+                Report Preview
+              </CardTitle>
             </CardHeader>
             <CardContent className="overflow-auto">
               <ReportPreview
@@ -210,6 +244,7 @@ export default function ReportPageContent() {
                 tasks={tasks}
                 month={month}
                 year={year}
+                projectTitle={projectTitle} 
                 objectives={objectives}
                 summary={summary}
                 learningOutcomes={learningOutcomes}
